@@ -1,5 +1,23 @@
-import slugify from 'slugify';
+import axios from "axios";
 
-const title =slugify('some string lorem ipsum dolor');
+export default async (user_id) => {
+    try {
+        const {
+            data: user
+        } = await axios(
+            "https://jsonplaceholder.typicode.com/users/" + user_id
+        );
 
-console.log(title);
+        const {
+            data: posts
+        } = await axios(
+            "https://jsonplaceholder.typicode.com/posts?userId=" + user_id
+        );
+        return {
+            user,
+            posts
+        };
+    } catch (e) {
+        return e;
+    }
+};
